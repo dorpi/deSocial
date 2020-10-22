@@ -1,4 +1,5 @@
 
+const Post = require('../models/Post');
 const validatePostInput = require('../validation/post');
 
 
@@ -20,7 +21,6 @@ exports.addComment =  (req, res) => {
         const newComment = {
           text: req.body.text,
           name: req.body.name,
-          avatar: req.body.avatar,
           user: req.user.id
         };
 
@@ -63,3 +63,13 @@ exports.addComment =  (req, res) => {
       })
       .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
   }
+
+
+  
+// @route   GET api/posts/comment/:postId/
+// @desc   Get comments for post
+// @access  Private
+
+exports.getComments = (req,res)=>{
+   console.log(req.body)
+}

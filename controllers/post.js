@@ -42,7 +42,8 @@ exports.createPost = (req, res) => {
     const newPost = new Post({
         text: req.body.text,
         name: req.body.name,
-        user: req.user.id
+        user: req.user.id,
+        
     });
 
     newPost.save().then(post => res.json(post));

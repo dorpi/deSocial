@@ -8,6 +8,10 @@ import {toAbsoluteUrl} from '../common/AssetsHelper'
  class CommentItem extends Component {
 
 
+    componentDidMount(){
+      this.props.getComments(this.props.postId);
+    }
+
     onDeleteClick(postId,commentId){
         this.props.deleteComment(postId,commentId);
     }
@@ -15,14 +19,12 @@ import {toAbsoluteUrl} from '../common/AssetsHelper'
     render() {
 
         const {comment,postId,auth} = this.props
-
-        
         return (
              <div className="card card-body mb-3">
               <div className="row">
                 <div className="col-md-2">
                   <a href="profile.html">
-                    <img className="rounded-circle d-none d-md-block" src={`${toAbsoluteUrl(comment.avatar)}?random=${Math.random()}`} alt="" />
+                    <img className="rounded-circle d-none d-md-block" src={`${toAbsoluteUrl(comment.user.avatar)}?random=${Math.random()}`} alt="" />
                   </a>
                   <br />
                   <p className="text-center">{comment.name}</p>

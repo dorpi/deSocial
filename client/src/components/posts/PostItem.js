@@ -32,7 +32,7 @@ import {toAbsoluteUrl} from '../common/AssetsHelper'
               <div className="row">
                 <div className="col-md-2">
                   <Link to={`/profile/user/${post.user}`}> 
-                    <img className="rounded-circle d-none d-md-block" src={`${toAbsoluteUrl(post.avatar)}?random=${Math.random()}`}
+                    <img className="rounded-circle d-none d-md-block" src={`${toAbsoluteUrl(post.user.avatar)}?random=${Math.random()}`}
                       alt="" />
                   </Link>
                   <br />

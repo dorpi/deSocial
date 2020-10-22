@@ -1,6 +1,6 @@
 
 
-import { POST_LOADING, GET_POSTS, GET_POST, ADD_POST, DELETE_POST, GET_ERRORS, CLEAR_ERRORS } from './types'
+import { POST_LOADING, GET_POSTS, GET_POST, ADD_POST, DELETE_POST, GET_ERRORS, CLEAR_ERRORS, GET_COMMENTS } from './types'
 import axios from 'axios';
 
 
@@ -148,4 +148,15 @@ export const clearErrors = () => {
     return {
         type: CLEAR_ERRORS
     }
+}
+
+
+export const getComments = (postId)=>dispatch => {
+    axios.get(`/api/post/comment/${postId}`)
+    .then((res)=>{
+        dispatch({
+            type:GET_COMMENTS,
+            payload:res.data
+        })
+    })
 }

@@ -20,6 +20,9 @@ const app= express();
 
 
 
+//Cors enable
+app.use(cors());
+
 
 // Body Parser middleware
 app.use(bodyParser.urlencoded({ extended: false }))  //middleware for parsing bodies from URL.
@@ -36,10 +39,6 @@ const store = new MongoDBStore({
     ttl: parseInt(config.SESS_LIFETIME) 
   });
 
-
-
-//Cors enable
-app.use(cors());
 
 
 
@@ -61,7 +60,7 @@ mongoose.connect(dbURI)
 mongoose.set('useFindAndModify', false);
 
 
-app.set('trust proxy',1)
+//app.set('trust proxy',1)
 // Session configuration
 app.use(
   session({
@@ -107,16 +106,14 @@ app.use('/api/users',user);
 app.use('/api/profile',profile);
 app.use('/api/post',post);
 
-//Server static assets if in production
-if (process.env.NODE_ENV==='production'){
-    //Set static folder
-    app.use(express.static('client/build'))
-}
+
+
 if(process.env.NODE_ENV === 'production'){
-        const path  =  require('path');
-        app.get('/*',(req,res)=>{
-            res.sendFile(path.resolve(__dirname,'client','build','index.html'))
-        })
-    }
+  app.get('/*',(req,res)=>{
+      res.sendFile(path.resolve(__dirname,'client','build','index.html'))
+  })
+}
+
+
 const port = process.env.PORT  || 5000;
 app.listen(port,()=> console.log(`Server running on port ${port}`));
