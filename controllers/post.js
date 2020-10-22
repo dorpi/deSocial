@@ -8,7 +8,7 @@ const validatePostInput = require('../validation/post');
 // @desc    Get posts
 // @access  Public
 exports.getPosts = (req, res) => {
-    Post.find()
+    Post.find().populate('user',['avatar'])
         .sort({ date: -1 })
         .then(posts => res.json(posts))
         .catch(err => res.status(404).json({ nopostsfound: 'No posts found' }));
@@ -20,7 +20,7 @@ exports.getPosts = (req, res) => {
 // @desc    Get post by id
 // @access  Public
 exports.getPost = (req, res) => {
-    Post.findById(req.params.id)
+    Post.findById(req.params.id).populate('user',['avatar'])
         .then(post => res.json(post))
         .catch(err =>
             res.status(404).json({ nopostfound: 'No post found with that ID' })
@@ -42,7 +42,6 @@ exports.createPost = (req, res) => {
     const newPost = new Post({
         text: req.body.text,
         name: req.body.name,
-        avatar: req.body.avatar,
         user: req.user.id
     });
 

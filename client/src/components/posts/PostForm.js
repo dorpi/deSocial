@@ -38,7 +38,7 @@ import {addPost} from '../../redux/actions/postActions';
         const newPost = {
             text:this.state.text,
             name:user.name,
-            avatar:user.avatar
+            
         }
         this.props.addPost(newPost)
         this.setState({text:''})
