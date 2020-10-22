@@ -31,7 +31,7 @@ import {deletePost,addLike,removeLike} from '../../redux/actions/postActions'
               <div className="row">
                 <div className="col-md-2">
                   <Link to={`/profile/user/${post.user}`}> 
-                    <img className="rounded-circle d-none d-md-block" src={post.avatar}
+                    <img className="rounded-circle d-none d-md-block" src={`${toAbsoluteUrl(post.avatar)}?random=${Math.random()}`}
                       alt="" />
                   </Link>
                   <br />
