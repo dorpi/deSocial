@@ -69,6 +69,7 @@ app.use(
     secret: config.SESS_SECRET,
     saveUninitialized: false,
     resave: false,
+    proxy : true,
     store:store,
     cookie: {
       sameSite: true,
