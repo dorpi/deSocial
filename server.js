@@ -61,7 +61,7 @@ mongoose.connect(dbURI)
 mongoose.set('useFindAndModify', false);
 
 
-
+app.set('trust proxy',1)
 // Session configuration
 app.use(
   session({
