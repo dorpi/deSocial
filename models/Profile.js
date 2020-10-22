@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const ProfileSchema = new Schema({
     user: {
-        type:Schema.Types.ObjectId,//accosiate by user id
+        type:Schema.Types.ObjectId,
         ref:'user'
     },
     avatar: {

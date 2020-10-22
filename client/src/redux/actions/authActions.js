@@ -1,58 +1,87 @@
-import {GET_ERRORS,SET_CURRENT_USER} from './types'
-import axios from 'axios';
-import setAuthToken from '../../utils/setAuthToken'; 
-import jwt_decode from 'jwt-decode';
+import { GET_ERRORS, SET_CURRENT_USER, AUTH_LOADING } from './types'
+import {
+    getLoginUserAccount,
+    registerUserAccount,
+    loginUserAccount,
+    logoutUserAccount,
+    deleteUserAccount
+} from '../../services/userService';
 
 //Register user
-export const registerUser = (userData,history) =>dispatch=>{
-    axios.post('/api/users/register',userData)  //Don't need to wtite localhost 5000 because the proxy
-    .then(res=>history.push('/login'))
-    .catch(err=>dispatch({
-        type:GET_ERRORS,
-        payload:err.response.data
-    }));
+export const registerUser = (userData, history) => dispatch => {
+    registerUserAccount(userData)
+        .then(res => history.push('/login'))
+        .catch(err => dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        }));
 }
 
 //Login - Get user token
-export const loginUser = userData=>dispatch=>{
-    
-    axios.post('/api/users/login',userData)
-    .then(res=>{
-        
-        const {token}=res.data;
-        //Save to local storage
-        localStorage.setItem('jwtToken',token);
-        // Set token to Auth header
-        setAuthToken(token);
-        //Decode token to get user data
-        const decoded = jwt_decode(token);
-        //Set current user
-        dispatch(setCurrentUser(decoded))
-    })
-    .catch(err=>dispatch({
-        type:GET_ERRORS,
-        payload:err.response.data
-    }))
+export const loginUser = userData => dispatch => {
+    loginUserAccount(userData)
+        .then(res => {
+            //Set current user
+            dispatch(setCurrentUser(res.data.user))
+        })
+        .catch(err => dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        }))
 };
 
 
 //Set logged in user
-export const setCurrentUser = decoded =>{
+export const setCurrentUser = user => {
+
     return {
-        type:SET_CURRENT_USER,
-        payload:decoded
+        type: SET_CURRENT_USER,
+        payload: user
     }
 }
 
 
 //Logout user
-export const logoutUser = () =>dispatch=>{
-//Remove token from localstorage
-localStorage.removeItem('jwtToken');
-//remove auth header for future requests
-setAuthToken(false);
-//Set current user to {} which will set is authenticated to false
-dispatch(setCurrentUser({}));
- 
+export const logoutUser = () => dispatch => {
+    logoutUserAccount()
+        .then((result) => {
+            //Alert something
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    dispatch(setCurrentUser({}));
+}  
 
+// Set loading state
+export const setAuthLoading = () => {
+    return {
+        type: AUTH_LOADING
+    }
+}
+
+// Get login user
+export const getLoginUser = () => dispatch => {
+    getLoginUserAccount().then((res) => {
+        dispatch(setCurrentUser(res.data));
+    }).catch(err => {
+        dispatch(setCurrentUser({}))
+    })
+}
+
+
+
+//Delete account and profile
+export const deleteAccount = () => dispatch => {
+    if (window.confirm('Are you sure ? This can NOT be undone!')) {
+        deleteUserAccount()
+            .then(res => dispatch({
+                type: SET_CURRENT_USER,
+                payload: {}
+            }))
+            .catch(err => dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            }))
+    }
 }

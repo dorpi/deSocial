@@ -4,7 +4,7 @@ import rootReducer from './reducers'
 const initialState={};
 
 
-const devTools =window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__() || compose
+const devTools =(window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__()) || compose
 
 
 

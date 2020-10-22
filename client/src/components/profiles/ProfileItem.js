@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropsTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import isEmpty  from '../../validation/is-empty'
-
+import {toAbsoluteUrl} from '../common/AssetsHelper'
 
 class ProfileItem extends Component {
   
@@ -10,12 +10,13 @@ class ProfileItem extends Component {
     render() {
 
         const {profile} = this.props
-
+      
+       
         return (
             <div className="card card-body bg-light mv-3">
                 <div className = "row">
                     <div className="col-2">
-                        <img src = {profile.user.avatar} alt="" className="rounded-circle"/>
+                        <img  src={`${toAbsoluteUrl(profile.user.avatar)}?random=${Math.random()}`} alt="" className="rounded-circle"/>
                     </div>
                     <div className="col-lg-6 col-md-4 col-8">
                         <h3>{profile.user.name}</h3>

@@ -1,14 +1,16 @@
 const isEmpty = require('./is-empty.js')
+const multer = require('multer')
 
 const Validator = require('validator');
 
 
-module.exports = function validateProfileInput(data,file) {
+module.exports = function validateProfileInput(data) {
+    
     let errors = {};
     data.handle = !isEmpty(data.handle) ? data.handle : '';
     data.status = !isEmpty(data.status) ? data.status : '';
     data.skills = !isEmpty(data.skills) ? data.skills : '';
-    data.avatar = !isEmpty(file)? file:'';
+    
 
 
 
@@ -48,9 +50,9 @@ module.exports = function validateProfileInput(data,file) {
             errors.twitter = 'Not valid URL';
         }
     }
-    if (!isEmpty(data.intagram)) {
-        if (!Validator.isURL(data.intagram)) {
-            errors.intagram = 'Not valid URL';
+    if (!isEmpty(data.instagram)) {
+        if (!Validator.isURL(data.instagram)) {
+            errors.instagram = 'Not valid URL';
         }
     }
 
@@ -59,9 +61,11 @@ module.exports = function validateProfileInput(data,file) {
             errors.linkedin = 'Not valid URL';
         }
     }
+    
+    
 
     return {
         errors,
-        isValid: isEmpty(errors)
+        isValid: isEmpty(errors) 
     }
 }

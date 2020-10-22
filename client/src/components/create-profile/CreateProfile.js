@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component,createRef } from 'react'
 import {withRouter,Link}from 'react-router-dom'
 
 import {connect} from 'react-redux';
@@ -7,16 +7,21 @@ import TextFieldGroup from '../common/TextFieldGroup'
 import InputGroup from '../common/InputGroup'
 import SelectListGroup from '../common/SelectListGroup'
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup'
+import ImageUpload from '../common/ImageUpload';
 import {createProfile,clearErrors} from '../../redux/actions/profileActions'
 
+
+
 class CreateProfile extends Component {
+
+    
+
     constructor(props){
         super(props);
         this.state={
             displaySocialInputs:false,
-            selectedFile:'',
-            imageName:'',
-            avatar:'',
+            file:'',
+            avatar:"/profile-images/default.png",
             handle:'',
             company:'',
             website:'',
@@ -32,17 +37,15 @@ class CreateProfile extends Component {
             instagram:'',
             errors:{}
         }
-        
+        this.formRef= createRef();
+        this.onImgChange=this.onImgChange.bind(this)
         this.onChange=this.onChange.bind(this);
         this.onSubmit=this.onSubmit.bind(this);
-      
-
     }
 
 
     componentDidMount(){
       this.props.clearErrors();
-     
     }
    
     componentDidUpdate(prevProps){
@@ -54,25 +57,8 @@ class CreateProfile extends Component {
 
 
     onSubmit(event){
-      
       event.preventDefault();
-
-      
-    const profileData = {
-      handle: this.state.handle,
-      company: this.state.company,
-      website: this.state.website,
-      location: this.state.location,
-      status: this.state.status,
-      skills: this.state.skills,
-      githubusername: this.state.githubusername,
-      bio: this.state.bio,
-      twitter: this.state.twitter,
-      facebook: this.state.facebook,
-      linkedin: this.state.linkedin,
-      youtube: this.state.youtube,
-      instagram: this.state.instagram
-    };
+      const profileData = new FormData(this.formRef.current)
       this.props.createProfile(profileData,this.props.history)
     }
 
@@ -85,12 +71,18 @@ class CreateProfile extends Component {
   }
 
 
+  onImgChange(e){
+    this.setState({errors:{
+      ...this.state.errors,
+      [e.target.name]:''
+  }});
+    const fileString=URL.createObjectURL(e.target.files[0])
+    this.setState({ file:e.target.files[0],[e.target.name]:fileString});
+  }
 
     render() {
       const {errors,displaySocialInputs}=this.state;
-      
-      
-
+     
 
       let socialInputs;
       if(displaySocialInputs){
@@ -155,7 +147,6 @@ class CreateProfile extends Component {
       ];
 
 
-    
         return (
             <div className="create-profile">
             <div className="container">
@@ -165,8 +156,17 @@ class CreateProfile extends Component {
                   <h1 className="display-4 text-center">Create Your Profile</h1>
                   <p className="lead text-center">Let's get some information to make your profile stand out</p>
                   <small className="d-block pb-3">* = required field</small>
-                  <form onSubmit={this.onSubmit}>
+                  <form ref={this.formRef} onSubmit={this.onSubmit} encType="multipart/form-data">
+                  <ImageUpload
+                  placeholder="Image Profile"
+                  name="avatar"
+                  url = {this.state.avatar}
+                  file={this.state.file}
+                  onChange={this.onImgChange}
+                  error={errors.avatar}
                   
+                  info="This is your profile picture"
+                />
                     <TextFieldGroup 
                     placeholder="*Profile Handle"
                     name="handle"
@@ -246,7 +246,7 @@ class CreateProfile extends Component {
                      </div> 
                      {socialInputs}
                      <div></div>
-                     <input type='submit' value="Submit" className="btn btn-info btn-blovk mt-4"/>   
+                     <input type='submit' value="Submit" className="btn btn-info btn-block mt-4"/>   
                    </form>
                 </div>
               </div>

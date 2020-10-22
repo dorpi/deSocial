@@ -78,8 +78,12 @@ export const deletePost = (postId) => dispatch => {
 //Add like 
 export const addLike = (postId) => dispatch => {
     axios.post(`/api/post/like/${postId}`)
-        .then(res => dispatch(getAllPosts()))
+        .then(res => {
+            dispatch(getAllPosts())
+        })
         .catch(err =>
+
+
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data

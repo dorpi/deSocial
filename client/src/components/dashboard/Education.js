@@ -26,7 +26,7 @@ import {deleteEducation} from '../../redux/actions/profileActions'
         return (
             <div >
                 <h4 className="mb-4">Education Credentials:</h4>
-                <table className="table">
+                <table className="table p-1rem">
                     <thead>
                         <tr>
                             <th>School</th>

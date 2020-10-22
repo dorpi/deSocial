@@ -1,4 +1,62 @@
 
+import React from 'react';
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import {toAbsoluteUrl} from './AssetsHelper';
+import imgDefault from './default.png'
+const ImageUpload = ({
+  info,
+  placeholder,
+  name,
+  url,
+  file,
+  error,
+  onChange,
+  
+}) => {
+ 
+  
+
+  return (
+    <div className="form-group mb-3" >
+        <img alt={imgDefault} className='w-25 mb-3 img-thumbnail rounded mx-auto d-block' src={file===''?`${toAbsoluteUrl(url)}?random=${Math.random()}`:toAbsoluteUrl(url)} />
+        <div className='custom-file'>
+        <input type="file" 
+        placeholder={placeholder}
+        className={classnames('form-control form-control-lg custom-file-input', { 'is-invalid': error })}
+        name={name} id="file-upload"
+        aria-describedby="file-upload" 
+        onChange={onChange} />
+        <label   
+        className={classnames('form-control form-control-lg custom-file-label', { 'is-invalid': error })}
+         htmlFor="file-upload">{file===''?'Choose file':file.name}</label>
+          {info && <small className="form-text text-muted">{info}</small>}
+          {error && <div className="invalid-feedback">{error}</div>}
+        </div>
+     
+    </div>
+  );
+};
+
+ImageUpload.propTypes = {
+  name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  url: PropTypes.string.isRequired,
+  file:PropTypes.any,
+  icon: PropTypes.string,
+  error: PropTypes.string,
+  type: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
+};
+
+ImageUpload.defaultProps = {
+  type: 'file'
+};
+
+export default ImageUpload;
+
+
+/*
 import React, { Component } from 'react'
 import PropsType from 'prop-types'
 import isEmpty from '../../validation/is-empty'
@@ -29,19 +87,19 @@ class ImageUpload extends Component {
       imageName:this.props.ImageName
     })
   }
-  
+
   render() {
     const {onImageChange,error} = this.props
     let imageNameValue;
     if (isEmpty(this.state.imageName))
       imageNameValue= "Choose file";
-    else {      
+    else {
       imageNameValue = this.state.imageName
     }
 
 
     return (
-      
+
       <div className="form-group">
         <img className="card rounded-circle ml-auto mr-auto" style={{ height: '30vh', width: '15vw'}} src={this.state.selectedFile} alt="" />
         <input className="custom-file-input form-control form-control-lg"

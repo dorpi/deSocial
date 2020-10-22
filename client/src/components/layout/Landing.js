@@ -2,17 +2,28 @@ import React, { Component } from 'react'
 import {Link} from 'react-router-dom';
 import PropsTypes from 'prop-types';
 import {connect} from 'react-redux';
- 
+import {setAuthLoading, setCurrentUser} from '../../redux/actions/authActions'
+import Spinner from '../common/Spinner'
 class Landing extends Component {
 
 
   
   componentDidMount(){
+   
     if (this.props.auth.isAuthenticated){
-        this.props.history.push('/dashboard')
-    }
+      this.props.history.push('/dashboard')
+    }    
+    else 
+      setCurrentUser({})
 }
+
+
     render() {
+      
+
+      if (this.props.auth.loading)
+        return <Spinner/>
+      else 
         return (
             <div className="landing">
             <div className="dark-overlay landing-inner text-light">
@@ -40,7 +51,8 @@ Landing.PropsTypes = {
 }
 
 const mapStateToProps = state =>({
-  auth:state.auth
+  auth:state.auth,
+  
 })
 
-export default connect(mapStateToProps)(Landing);
+export default connect(mapStateToProps,{setAuthLoading,setCurrentUser})(Landing);

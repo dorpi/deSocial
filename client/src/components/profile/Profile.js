@@ -7,25 +7,28 @@ import ProfileCreds from './ProfileCreds';
 import ProfileGithub from './ProfileGithub';
 import ProfileAbout from './ProfileAbout';
 import Spinner from '../common/Spinner';
-import { getProfileByUserId,clearProfile} from '../../redux/actions/profileActions'
-
+import { getProfileByUserId,clearProfile, clearErrors} from '../../redux/actions/profileActions'
 
 class Profile extends Component {
 
     componentDidMount() {
         
-        if (this.props.match.params.userId)
+        if (this.props.match.params.userId){
             this.props.getProfileByUserId(this.props.match.params.userId);
+        }
     }
 
     componentDidUpdate(prevProps,prevStates){
-        
         if (prevProps.profile !== this.props.profile){
-            if (this.props.profile.profile === null &&  !this.props.profile.loading){
-                console.log("NOT found")
-                this.props.history.push('/not-found')
-            } 
+            if (this.props.profile.profile ==null && this.props.errors.profile){
+                 this.props.history.push('/not-found')
+             } 
         }
+
+    }
+
+    componentWillUnmount(){
+        this.props.clearErrors();
     }
 
     render() {
@@ -74,7 +77,8 @@ Profile.PropsType = {
 
 
 const mapStateToProps = state => ({
-    profile: state.profile
+    profile: state.profile,
+    errors:state.errors
 })
 
-export default connect(mapStateToProps, {getProfileByUserId,clearProfile})(Profile);
+export default connect(mapStateToProps, {getProfileByUserId,clearProfile,clearErrors})(Profile);

@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropsTypes from 'prop-types';
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
-import {getCurrentProfile,deleteAccount} from '../../redux/actions/profileActions'
+import {getCurrentProfile} from '../../redux/actions/profileActions'
+import {deleteAccount} from '../../redux/actions/authActions'
 import Spinner from '../common/Spinner'
 import ProfileActions from './ProfileActions'
 import Experience from './Experience';
@@ -17,12 +18,15 @@ import Education from './Education';
      
      onDeleteClick(event){
         this.props.deleteAccount();
+        
      }
     
     render() {
         const {user}=this.props.auth;
         const {profile,loading} = this.props.profile;
         let dashboardContent;
+
+
 
         if (loading) {// from redux profile reducer
             dashboardContent = <Spinner/>;
