@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux';
 import PropsTypes from 'prop-types';
 import {deleteComment} from '../../redux/actions/postActions';
+import {toAbsoluteUrl} from '../common/AssetsHelper'
 
 
  class CommentItem extends Component {

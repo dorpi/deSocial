@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import classnames from 'classnames';
 import {Link} from 'react-router-dom'; 
 import {deletePost,addLike,removeLike} from '../../redux/actions/postActions'
+import {toAbsoluteUrl} from '../common/AssetsHelper'
 
 
  class PostItem extends Component {
