@@ -32,7 +32,7 @@ import './App.css';
 function App(props) {
 
   useEffect(() => {
-    axios.defaults.baseURL = 'http://localhost:5000/';
+    axios.defaults.baseURL = 'https://whispering-dawn-73999.herokuapp/';
     axios.defaults.withCredentials = true  
     store.dispatch(getLoginUser());
   },[])
