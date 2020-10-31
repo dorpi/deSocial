@@ -22,7 +22,7 @@ const app= express();
 
 //Cors enable
 app.use(cors({
-  origin:['http://localhost:3000'],
+  origin:['https://whispering-dawn-73999.herokuapp.com'],
   methods:['GET','POST','DELETE','PUT'],
   credentials: true // enable set cookie
 }));
@@ -65,8 +65,6 @@ mongoose.connect(dbURI)
 
 mongoose.set('useFindAndModify', false);
 
-
-//app.enable('trust proxy');
 
 // Session configuration
 app.use(session({
