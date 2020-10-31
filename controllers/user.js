@@ -131,8 +131,9 @@ exports.logoutUser = (req, res) => {
 
 exports.getLoginUser = (req, res) => {
 
-    if (req.session.user)
+    if (req.session.user){
         res.send(req.session.user);
-    else res.send({})
+    }
+    res.status(404).json({})
 }
 
