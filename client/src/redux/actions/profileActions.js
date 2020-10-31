@@ -23,18 +23,10 @@ export const getCurrentProfile = () => dispatch => {
     dispatch(setProfileLoading());
     getCurrentUserProfile()
         .then(res => {
-            if (res.data) {
-                dispatch({
-                    type: GET_PROFILE,
-                    payload: res.data
-                })
-            }
-            else {
-                dispatch({
-                    type: GET_PROFILE,
-                    payload: null
-                })
-            }
+            dispatch({
+                type: GET_PROFILE,
+                payload: res.data
+            })
         })
         .catch(err => dispatch({
             type: GET_PROFILE,
