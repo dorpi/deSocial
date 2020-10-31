@@ -21,7 +21,13 @@ const app= express();
 
 
 //Cors enable
-app.use(cors());
+app.use(cors({
+  origin:['http://localhost:3000'],
+  methods:['GET','POST','DELETE','PUT'],
+  credentials: true // enable set cookie
+}));
+
+
 
 
 // Body Parser middleware
@@ -36,7 +42,7 @@ const dbURI = config.mongoURI
 const store = new MongoDBStore({
     uri:config.mongoURI,
     collection: 'sessions',
-    ttl: parseInt(config.SESS_LIFETIME) 
+    ttl: parseInt(config.SESS_LIFETIME)*100 
   });
 
 
@@ -60,24 +66,21 @@ mongoose.connect(dbURI)
 mongoose.set('useFindAndModify', false);
 
 
-//app.set('trust proxy',1)
+//app.enable('trust proxy');
+
 // Session configuration
-app.use(
-  session({
+app.use(session({
     name: config.SESS_NAME,
     secret: config.SESS_SECRET,
     saveUninitialized: false,
     resave: false,
-    proxy : true,
     store:store,
     cookie: {
-      sameSite: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: parseInt(config.SESS_LIFETIME)*1000
+      secure:false,
+      expires: parseInt(config.SESS_LIFETIME)*100
     }
   })
 );
-
 
 
 
@@ -87,11 +90,12 @@ app.use((req, res, next) => {
     if (!req.session.user) {
       return next();
     }
-    User.findById(req.session.user._id)
+    User.findById(req.session.user.id)
       .then(user => {
         if (!user) {
           return next();
         }
+      
         req.user = user;
         next();
       })
@@ -114,6 +118,11 @@ if(process.env.NODE_ENV === 'production'){
   })
 }
 
+//Server static assets if in production
+if (process.env.NODE_ENV==='production'){
+    //Set static folder
+    app.use(express.static('client/build'))
+}
 
 const port = process.env.PORT  || 5000;
 app.listen(port,()=> console.log(`Server running on port ${port}`));

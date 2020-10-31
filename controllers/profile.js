@@ -59,10 +59,9 @@ exports.getCurrentUserProfile =  (req, res) => {
     Profile.findOne({ user: req.user.id })
       .populate('user', ['name', 'avatar'])
       .then(profile => {
-       
         if (!profile) {
           errors.profile = 'There is no profile for this user';
-          return res.status(404).json(errors);
+          return res.status(404).json({});
         }
         res.json(profile);
       })
@@ -76,10 +75,8 @@ exports.getCurrentUserProfile =  (req, res) => {
       .populate('user', ['name', 'avatar'])
       .then(profiles => {
         if (!profiles) {
-          errors.profile = 'There are no profiles';
-          return res.status(404).json(errors);
+          return res.json({});
         }
-        
         res.json(profiles);
       })
       .catch(err => res.status(404).json({ profile: 'There are no profiles' }));
@@ -168,15 +165,8 @@ exports.createOrEditProfile = (req, res) => {
       if (req.file)
           User.findOneAndUpdate(
             {email:req.user.email},
-            {$set:{"avatar": `/profile-images/${req.user.email}.png`}},
-            ).then(user=>{
-            if (user){
-                console.log("The user changed: "+user);
-            }
-            else{
-              console.log("user not found")
-            }
-          }).catch(err=>res.json(err))
+            {$set:{"avatar": `/profile-images/${req.user.email}.png`}}
+            ).catch(err=>res.json(err))
          
     
     Profile.findOne({ user: req.user.id }).then(profile => {

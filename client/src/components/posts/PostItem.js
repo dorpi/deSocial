@@ -12,12 +12,15 @@ import {toAbsoluteUrl} from '../common/AssetsHelper'
     onLikeClick(postId){
         this.props.addLike(postId);
     }
+
     onUnLikeClick(postId){
         this.props.removeLike(postId);
     }
+
     onDeleteClick(postId){
         this.props.deletePost(postId);
     }
+
     findUserLike(likes){
         const{auth} = this.props
         if (likes.filter(like => like.user===auth.user.id).length>0){
@@ -25,14 +28,16 @@ import {toAbsoluteUrl} from '../common/AssetsHelper'
         } 
         return false;
     }
+    
     render() {
         const {post,auth,showActions} = this.props
+        const proxy ="http://localhost:5000"
         return (
             <div className="card card-body mb-3">
               <div className="row">
                 <div className="col-md-2">
-                  <Link to={`/profile/user/${post.user}`}> 
-                    <img className="rounded-circle d-none d-md-block" src={`${toAbsoluteUrl(post.user.avatar)}?random=${Math.random()}`}
+                  <Link to={`/profile/user/${post.user._id}`}> 
+                    <img className="rounded-circle d-none d-md-block" src={`${proxy}${toAbsoluteUrl(post.user.avatar)}?random=${Math.random()}`}
                       alt="" />
                   </Link>
                   <br />
@@ -54,7 +59,7 @@ import {toAbsoluteUrl} from '../common/AssetsHelper'
                   <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
                   {post.comments.length} Comments 
                 </Link>
-                {post.user ===auth.user.id ? 
+                {post.user._id ===auth.user.id ? 
                 (<button type="button" onClick={this.onDeleteClick.bind(this,post._id)} className="btn btn-danger mr-1">
                     <i className="fas fa-times"/>
                 </button>)

@@ -12,11 +12,17 @@ class Posts extends Component {
     componentDidMount(){
         this.props.getAllPosts();
     }
+   
+
+
     render() {
         const {posts,loading} = this.props.post
         let postContent;
-        if (posts===null ||loading){
+        if (loading){
             postContent = <Spinner/>
+        }
+        else if (posts===null ){
+            postContent =<div></div>
         }
         else {
             postContent = <PostFeed posts={posts}/>

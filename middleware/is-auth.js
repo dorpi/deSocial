@@ -1,11 +1,9 @@
 module.exports = (req, res, next) => {
     
-    if (!req.session.user) {
-        //Redirect to login page
-        return res.json("Not login")
-    }
+    if (req.user) {
+        next();
+    } 
     else 
-        req.user=req.session.user
+        res.status(401).json({errors:{user:"Unauthorized"}})
    
-    next();
 }

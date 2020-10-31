@@ -18,12 +18,13 @@ import NotFound from './components/not-found/NotFound';
 import Posts from './components/posts/Posts';
 import Post from './components/post/Post';
 import store from './redux/store'
-import {setAuthLoading, getLoginUser}from './redux/actions/authActions';
+import { getLoginUser}from './redux/actions/authActions';
 
 
 import PrivateRoute from './components/common/PrivateRoute'
 
 import RedirectHomeRoute from './components/common/RedirectRoute'
+import axios from 'axios'
 import './App.css';
 
 
@@ -31,11 +32,12 @@ import './App.css';
 function App(props) {
 
   useEffect(() => {
-    store.dispatch(setAuthLoading());
+    axios.defaults.baseURL = 'http://localhost:5000/';
+    axios.defaults.withCredentials = true  
     store.dispatch(getLoginUser());
   },[])
     
-  
+
   return (
     <Provider store={store}>
       <BrowserRouter >

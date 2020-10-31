@@ -4,13 +4,14 @@ import {toAbsoluteUrl} from '../common/AssetsHelper'
 class ProfileHeader extends Component {
     render() {
         const { profile } = this.props
+        const proxy = "http://localhost:5000"
         return (
             <div className="row">
                 <div className="col-md-12">
                     <div className="card card-body bg-info text-white mb-3">
                         <div className="row">
                             <div className="col-4 col-md-3 m-auto">
-                            <img  src={`${toAbsoluteUrl(profile.user.avatar)}?random=${Math.random()}`} alt="No" className="rounded-circle"/>
+                            <img  src={`${proxy}${toAbsoluteUrl(profile.user.avatar)}?random=${Math.random()}`} alt="No" className="rounded-circle"/>
                             </div>
                         </div>
                         <div className="text-center">

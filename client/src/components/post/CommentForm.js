@@ -40,7 +40,7 @@ import {addComment} from '../../redux/actions/postActions';
         const newComment = {
             text:this.state.text,
             name:user.name,
-            avatar:user.avatar
+            user:user
         }
         this.props.addComment(postId,newComment)
         this.setState({text:''})

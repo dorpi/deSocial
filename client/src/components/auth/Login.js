@@ -21,12 +21,12 @@ class Login extends Component {
 
     componentDidMount() {
        
-        if (this.props.auth.isAuthenticated) {
+        if (this.props.auth.isAuthenticated && !this.props.auth.loading) {
             this.props.history.push('/dashboard')
         }
-        else {
-            this.props.setCurrentUser({})
-        }
+        else if (!this.props.auth.loading){
+                this.props.setCurrentUser({});
+            }
     }
 
 

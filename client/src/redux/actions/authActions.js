@@ -21,7 +21,6 @@ export const registerUser = (userData, history) => dispatch => {
 export const loginUser = userData => dispatch => {
     loginUserAccount(userData)
         .then(res => {
-            //Set current user
             dispatch(setCurrentUser(res.data.user))
         })
         .catch(err => dispatch({
@@ -51,7 +50,7 @@ export const logoutUser = () => dispatch => {
             console.log(err)
         })
     dispatch(setCurrentUser({}));
-}  
+}
 
 // Set loading state
 export const setAuthLoading = () => {
@@ -63,6 +62,7 @@ export const setAuthLoading = () => {
 // Get login user
 export const getLoginUser = () => dispatch => {
     getLoginUserAccount().then((res) => {
+
         dispatch(setCurrentUser(res.data));
     }).catch(err => {
         dispatch(setCurrentUser({}))

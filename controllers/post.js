@@ -1,5 +1,6 @@
 
 const Post = require('../models/Post');
+const User = require('../models/User');
 // Validation
 const validatePostInput = require('../validation/post');
 
@@ -20,8 +21,12 @@ exports.getPosts = (req, res) => {
 // @desc    Get post by id
 // @access  Public
 exports.getPost = (req, res) => {
-    Post.findById(req.params.id).populate('user',['avatar'])
-        .then(post => res.json(post))
+    Post.findById(req.params.id)
+    .populate('user',['name','avatar'])
+    .populate('comments.user',['name','avatar'])
+    .then(post =>{ 
+        res.json(post)
+    })  
         .catch(err =>
             res.status(404).json({ nopostfound: 'No post found with that ID' })
         );
@@ -38,15 +43,13 @@ exports.createPost = (req, res) => {
         // If any errors, send 400 with errors object
         return res.status(400).json(errors);
     }
-
     const newPost = new Post({
         text: req.body.text,
         name: req.body.name,
-        user: req.user.id,
-        
-    });
+        user: req.user
+    })
 
-    newPost.save().then(post => res.json(post));
+    newPost.save().then(post=>res.json(post));
 }
 
 

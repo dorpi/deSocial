@@ -8,9 +8,6 @@ import {toAbsoluteUrl} from '../common/AssetsHelper'
  class CommentItem extends Component {
 
 
-    componentDidMount(){
-      this.props.getComments(this.props.postId);
-    }
 
     onDeleteClick(postId,commentId){
         this.props.deleteComment(postId,commentId);
@@ -19,19 +16,20 @@ import {toAbsoluteUrl} from '../common/AssetsHelper'
     render() {
 
         const {comment,postId,auth} = this.props
+        const proxy ="http://localhost:5000"
         return (
              <div className="card card-body mb-3">
               <div className="row">
                 <div className="col-md-2">
-                  <a href="profile.html">
-                    <img className="rounded-circle d-none d-md-block" src={`${toAbsoluteUrl(comment.user.avatar)}?random=${Math.random()}`} alt="" />
+                  <a href={`/profile/user/${comment.user._id}`}>
+                    <img className="rounded-circle d-none d-md-block" src={`${proxy}${toAbsoluteUrl(comment.user.avatar)}?random=${Math.random()}`} alt="" />
                   </a>
                   <br />
                   <p className="text-center">{comment.name}</p>
                 </div>
                 <div className="col-md-10">
                   <p  style={{fontSize:'1.5vw'}}>{comment.text}</p>
-                  {comment.user ===auth.user.id ? 
+                  {comment.user._id ===auth.user.id ? 
                 (<button type="button" onClick={this.onDeleteClick.bind(this,postId,comment._id)} className="btn btn-danger mr-1 position-absolute" style={{bottom:0,right:0}}>
                     <i className="fas fa-times"/>
                 </button>)

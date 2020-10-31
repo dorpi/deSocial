@@ -11,12 +11,12 @@ class ProfileItem extends Component {
 
         const {profile} = this.props
       
-       
+       const proxy = "http://localhost:5000"
         return (
             <div className="card card-body bg-light mv-3">
                 <div className = "row">
                     <div className="col-2">
-                        <img  src={`${toAbsoluteUrl(profile.user.avatar)}?random=${Math.random()}`} alt="" className="rounded-circle"/>
+                        <img  src={`${proxy}${toAbsoluteUrl(profile.user.avatar)}?random=${Math.random()}`} alt="" className="rounded-circle"/>
                     </div>
                     <div className="col-lg-6 col-md-4 col-8">
                         <h3>{profile.user.name}</h3>

@@ -6,7 +6,16 @@ import { logoutUser } from '../../redux/actions/authActions'
 import { clearProfile } from '../../redux/actions/profileActions'
 
 
+
 class Navbar extends Component {
+
+  state={
+    isNavCollapsed:true
+  }
+
+ handleNavCollapse = () =>  this.setState(prevState => ({
+  isNavCollapsed: !prevState.isNavCollapsed,
+}));
 
   onLogoutClick(event) {
     event.preventDefault();
@@ -28,7 +37,8 @@ class Navbar extends Component {
         <li className="nav-item">
           <Link className="nav-link" to="/feed">Post Feed</Link>
         </li>
-        <li><a href='/#' onClick={this.onLogoutClick.bind(this)} className="nav-link">
+        <li>
+          <a href='/#' onClick={this.onLogoutClick.bind(this)} className="nav-link">
           Logout
           </a>
         </li>
@@ -46,23 +56,22 @@ class Navbar extends Component {
       </ul>);
 
     return (
-      <nav className="navbar navbar-expand-sm navbar-dark bg-dark fixed-top  navbar-header">
-        <div className="container">
+      <nav className="navbar navbar-expand-sm navbar-dark bg-dark ">
           <Link className="navbar-brand" to="/">DeSocial</Link>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
+          <button 
+          className="custom-toggler navbar-toggler" 
+          type="button" 
+          data-toggle="collapse" 
+          data-target="#nav-mobile" 
+          aria-controls="nav-mobile"
+          aria-expanded={!this.state.isNavCollapsed ? true : false} 
+          aria-label="Toggle navigation" onClick={()=>this.handleNavCollapse()}
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
-
-          <div className="collapse navbar-collapse" id="mobile-nav">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to="/profiles"> Developers
-            </Link>
-              </li>
-            </ul>
+          <div className={`${this.state.isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="nav-mobile">
             {isAuthenticated ? authLinks : guestLinks}
           </div>
-        </div>
       </nav>
     )
   }

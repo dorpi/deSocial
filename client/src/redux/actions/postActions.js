@@ -1,13 +1,19 @@
 
 
-import { POST_LOADING, GET_POSTS, GET_POST, ADD_POST, DELETE_POST, GET_ERRORS, CLEAR_ERRORS, GET_COMMENTS } from './types'
-import axios from 'axios';
+import { POST_LOADING, GET_POSTS, GET_POST, ADD_POST, DELETE_POST, GET_ERRORS, CLEAR_ERRORS } from './types'
+
+import {
+    createPost, getPostById, unLikeUserPost, likeUserPost, getAllPostsServer, deleteUserPost
+    , addUserComment, deleteUserComment
+} from '../../services/postService'
+
+
 
 
 //Add post
 export const addPost = (postData) => dispatch => {
     dispatch(clearErrors());
-    axios.post('/api/post', postData)
+    createPost(postData)
         .then(res => {
             dispatch({
                 type: ADD_POST,
@@ -26,7 +32,7 @@ export const addPost = (postData) => dispatch => {
 //Get Post 
 export const getPost = (id) => dispatch => {
 
-    axios.get(`/api/post/${id}`)
+    getPostById(id)
         .then(res => {
             dispatch({
                 type: GET_POST,
@@ -43,7 +49,7 @@ export const getPost = (id) => dispatch => {
 // Get all Posts
 export const getAllPosts = () => dispatch => {
     dispatch(setPostLoading())
-    axios.get('/api/post')
+    getAllPostsServer()
         .then(res => {
             dispatch({
                 type: GET_POSTS,
@@ -61,7 +67,7 @@ export const getAllPosts = () => dispatch => {
 
 // Delete Post
 export const deletePost = (postId) => dispatch => {
-    axios.delete(`/api/post/${postId}`)
+    deleteUserPost(postId)
         .then(res => {
             dispatch({
                 type: DELETE_POST,
@@ -77,7 +83,7 @@ export const deletePost = (postId) => dispatch => {
 
 //Add like 
 export const addLike = (postId) => dispatch => {
-    axios.post(`/api/post/like/${postId}`)
+    likeUserPost(postId)
         .then(res => {
             dispatch(getAllPosts())
         })
@@ -93,7 +99,7 @@ export const addLike = (postId) => dispatch => {
 
 //Remove like 
 export const removeLike = (postId) => dispatch => {
-    axios.post(`/api/post/unlike/${postId}`)
+    unLikeUserPost(postId)
         .then(res => dispatch(getAllPosts()))
         .catch(err =>
             dispatch({
@@ -105,7 +111,7 @@ export const removeLike = (postId) => dispatch => {
 //Add Comment
 export const addComment = (postId, commentData) => dispatch => {
     dispatch(clearErrors());
-    axios.post(`/api/post/comment/${postId}`, commentData)
+    addUserComment(postId, commentData)
         .then(res => {
             dispatch({
                 type: GET_POST,
@@ -122,7 +128,7 @@ export const addComment = (postId, commentData) => dispatch => {
 //Delete Comment
 export const deleteComment = (postId, commentId) => dispatch => {
 
-    axios.delete(`/api/post/comment/${postId}/${commentId}`)
+    deleteUserComment(postId, commentId)
         .then(res => {
             dispatch({
                 type: GET_POST,
@@ -150,13 +156,3 @@ export const clearErrors = () => {
     }
 }
 
-
-export const getComments = (postId)=>dispatch => {
-    axios.get(`/api/post/comment/${postId}`)
-    .then((res)=>{
-        dispatch({
-            type:GET_COMMENTS,
-            payload:res.data
-        })
-    })
-}

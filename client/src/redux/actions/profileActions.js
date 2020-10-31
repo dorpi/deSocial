@@ -6,7 +6,8 @@ import {
     GET_PROFILES,
     CLEAR_ERRORS
 } from './types';
-import {getCurrentUserProfile,
+import {
+    getCurrentUserProfile,
     getUserProfileByHandle,
     getUserProfileById,
     createUserProfile,
@@ -21,8 +22,8 @@ import {getCurrentUserProfile,
 export const getCurrentProfile = () => dispatch => {
     dispatch(setProfileLoading());
     getCurrentUserProfile()
-    .then(res => {
-            if (res.data){
+        .then(res => {
+            if (res.data) {
                 dispatch({
                     type: GET_PROFILE,
                     payload: res.data
@@ -34,7 +35,7 @@ export const getCurrentProfile = () => dispatch => {
                     payload: null
                 })
             }
-    })
+        })
         .catch(err => dispatch({
             type: GET_PROFILE,
             payload: null
@@ -69,7 +70,7 @@ export const getProfileByUserId = (userId) => dispatch => {
             })
         })
         .catch(err => {
-           
+
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
@@ -151,17 +152,18 @@ export const deleteEducation = (userId) => dispatch => {
 //Get all profiles
 export const getProfiles = () => dispatch => {
     getAllProfilesServer()
-        .then(res =>
+        .then(res => {
             dispatch({
                 type: GET_PROFILES,
                 payload: res.data
-            }))
-        .catch(err =>
+            })
+        })
+        .catch(err => {
             dispatch({
                 type: GET_PROFILES,
                 payload: err.response.data
             })
-        )
+        })
 
 }
 

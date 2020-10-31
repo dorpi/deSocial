@@ -15,11 +15,11 @@ const ImageUpload = ({
   
 }) => {
  
-  
+  const proxy = 'http://localhost:5000'
 
   return (
     <div className="form-group mb-3" >
-        <img alt={imgDefault} className='w-25 mb-3 img-thumbnail rounded mx-auto d-block' src={file===''?`${toAbsoluteUrl(url)}?random=${Math.random()}`:toAbsoluteUrl(url)} />
+        <img alt={imgDefault} className='w-25 mb-3 img-thumbnail rounded mx-auto d-block' src={file===''?`${toAbsoluteUrl(proxy+url)}?random=${Math.random()}`:toAbsoluteUrl(url)} />
         <div className='custom-file'>
         <input type="file" 
         placeholder={placeholder}
