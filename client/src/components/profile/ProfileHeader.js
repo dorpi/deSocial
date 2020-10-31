@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import isEmpty from '../../validation/is-empty';
 import {toAbsoluteUrl} from '../common/AssetsHelper'
+import {proxy} from '../../config'
+
+
 class ProfileHeader extends Component {
     render() {
         const { profile } = this.props
-        const proxy = "http://localhost:5000"
+
         return (
             <div className="row">
                 <div className="col-md-12">
