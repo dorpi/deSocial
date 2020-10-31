@@ -3,7 +3,7 @@ import PropsTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import isEmpty  from '../../validation/is-empty'
 import {toAbsoluteUrl} from '../common/AssetsHelper'
-
+import {proxy} from '../../config'
 class ProfileItem extends Component {
   
     
@@ -11,7 +11,7 @@ class ProfileItem extends Component {
 
         const {profile} = this.props
       
-       const proxy = "http://localhost:5000"
+    
         return (
             <div className="card card-body bg-light mv-3">
                 <div className = "row">

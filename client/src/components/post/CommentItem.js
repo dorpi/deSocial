@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropsTypes from 'prop-types';
 import {deleteComment} from '../../redux/actions/postActions';
-import {toAbsoluteUrl} from '../common/AssetsHelper'
-
+import {toAbsoluteUrl} from '../common/AssetsHelper';
+import {proxy} from '../../config';
 
  class CommentItem extends Component {
 
@@ -15,8 +15,8 @@ import {toAbsoluteUrl} from '../common/AssetsHelper'
 
     render() {
 
-        const {comment,postId,auth} = this.props
-        const proxy ="http://localhost:5000"
+        const {comment,postId,auth} = this.props;
+       
         return (
              <div className="card card-body mb-3">
               <div className="row">

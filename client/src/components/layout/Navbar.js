@@ -9,13 +9,13 @@ import { clearProfile } from '../../redux/actions/profileActions'
 
 class Navbar extends Component {
 
-  state={
-    isNavCollapsed:true
+  state = {
+    isNavCollapsed: true
   }
 
- handleNavCollapse = () =>  this.setState(prevState => ({
-  isNavCollapsed: !prevState.isNavCollapsed,
-}));
+  handleNavCollapse = () => this.setState(prevState => ({
+    isNavCollapsed: !prevState.isNavCollapsed,
+  }));
 
   onLogoutClick(event) {
     event.preventDefault();
@@ -39,7 +39,7 @@ class Navbar extends Component {
         </li>
         <li>
           <a href='/#' onClick={this.onLogoutClick.bind(this)} className="nav-link">
-          Logout
+            Logout
           </a>
         </li>
       </ul>
@@ -57,21 +57,28 @@ class Navbar extends Component {
 
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark ">
-          <Link className="navbar-brand" to="/">DeSocial</Link>
-          <button 
-          className="custom-toggler navbar-toggler" 
-          type="button" 
-          data-toggle="collapse" 
-          data-target="#nav-mobile" 
+        <ul className="navbar-nav ml-auto">
+          <li className="nav-item">
+            <Link className="navbar-brand" to="/">DeSocial</Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/profiles">Developers</Link>
+          </li>
+        </ul>
+        <button
+          className="custom-toggler navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#nav-mobile"
           aria-controls="nav-mobile"
-          aria-expanded={!this.state.isNavCollapsed ? true : false} 
-          aria-label="Toggle navigation" onClick={()=>this.handleNavCollapse()}
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className={`${this.state.isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="nav-mobile">
-            {isAuthenticated ? authLinks : guestLinks}
-          </div>
+          aria-expanded={!this.state.isNavCollapsed ? true : false}
+          aria-label="Toggle navigation" onClick={() => this.handleNavCollapse()}
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className={`${this.state.isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="nav-mobile">
+          {isAuthenticated ? authLinks : guestLinks}
+        </div>
       </nav>
     )
   }

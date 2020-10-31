@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import {toAbsoluteUrl} from './AssetsHelper';
 import imgDefault from './default.png'
+import {proxy} from '../../config'
 const ImageUpload = ({
   info,
   placeholder,
@@ -15,8 +16,6 @@ const ImageUpload = ({
   
 }) => {
  
-  const proxy = 'http://localhost:5000'
-
   return (
     <div className="form-group mb-3" >
         <img alt={imgDefault} className='w-25 mb-3 img-thumbnail rounded mx-auto d-block' src={file===''?`${toAbsoluteUrl(proxy+url)}?random=${Math.random()}`:toAbsoluteUrl(url)} />

@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import {Link} from 'react-router-dom'; 
 import {deletePost,addLike,removeLike} from '../../redux/actions/postActions'
 import {toAbsoluteUrl} from '../common/AssetsHelper'
-
+import {proxy} from '../../config';
 
  class PostItem extends Component {
 
@@ -31,7 +31,7 @@ import {toAbsoluteUrl} from '../common/AssetsHelper'
     
     render() {
         const {post,auth,showActions} = this.props
-        const proxy ="http://localhost:5000"
+      
         return (
             <div className="card card-body mb-3">
               <div className="row">
