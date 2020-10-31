@@ -1,7 +1,7 @@
 import Axios from 'axios';
 
 export const getCurrentUserProfile = ()=>{
-      return  Axios.get(+'/api/profile');
+      return  Axios.get('/api/profile');
 }
 
 export const getUserProfileByHandle = (handle)=>{
